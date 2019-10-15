@@ -1,12 +1,16 @@
 package com.transporter.batch.ordercancel;
 
 import com.transporter.order.Order;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity
-@Table(name = "T_B001_WORK_TABLE")
-public class B001WorkTable {
+@Table(name = "ORDER_CANCEL_ROW")
+class OrderCancelRow {
 
     @Id
     @GeneratedValue
@@ -18,7 +22,4 @@ public class B001WorkTable {
 
     @Column(name = "NOTIFY_USER")
     private Boolean notifyUser;
-
-
-
 }
