@@ -16,8 +16,11 @@ import java.util.List;
 
 public class Step01FillTable implements Tasklet {
 
-    @Autowired
-    OrderRepository orderRepository;
+    private OrderRepository orderRepository;
+
+    Step01FillTable(OrderRepository orderRepository){
+        this.orderRepository = orderRepository;
+    }
 
     @Override
     public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
