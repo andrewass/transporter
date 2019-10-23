@@ -21,16 +21,14 @@ public class Trip {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
+    @JoinColumn(name = "ORDER_ID")
     private Order order;
 
     private Integer price;
 
     @CreationTimestamp
-    @Column(name = "DATE_CREATED")
     private LocalDateTime dateCreated;
 
     @CreationTimestamp
-    @Column(name = "DATE_UPDATED")
     private LocalDateTime dateUpdated;
 }

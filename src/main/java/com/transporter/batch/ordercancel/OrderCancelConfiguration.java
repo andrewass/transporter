@@ -1,16 +1,11 @@
 package com.transporter.batch.ordercancel;
 
-import com.transporter.order.Order;
 import com.transporter.order.OrderRepository;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.batch.core.launch.support.SimpleJobLauncher;
-import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManagerFactory;
-import java.util.List;
-
-import static com.transporter.order.OrderStatus.CANCELLED;
-import static com.transporter.order.OrderStatus.COMPLETE;
-import static java.util.Collections.singletonMap;
 
 @Configuration
 @EnableBatchProcessing
@@ -40,8 +30,11 @@ public class OrderCancelConfiguration {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private OrderCancelRowRepository orderCancelRowRepository;
+
     @Bean
-    public Job job() {
+    public Job job() throws Exception {
         return jobBuilderFactory.get("order-cancel-job")
                 .start(step1())
                 .next(step2())
@@ -52,12 +45,12 @@ public class OrderCancelConfiguration {
     @Bean
     public Step step1() {
         return stepBuilderFactory.get("fill-table")
-                .tasklet(new Step01FillTable(orderRepository))
+                .tasklet(new Step01FillTable(orderRepository, orderCancelRowRepository))
                 .build();
     }
 
     @Bean
-    public Step step2() {
+    public Step step2() throws Exception {
         return stepBuilderFactory.get("cancel-orders")
                 .<OrderCancelRow, OrderCancelRow>chunk(100)
                 .reader(orderReader())
@@ -73,26 +66,20 @@ public class OrderCancelConfiguration {
                 .build();
     }
 
-    /*
     @Bean
-    public JobLauncher jobLauncher(){
-        return new SimpleJobLauncher();
-    }
-*/
-    @Bean
-    public JpaPagingItemReader<OrderCancelRow> orderReader() {
-        String jplQuery = "select o from Order o where o.orderStatus not in (:status_params)";
+    public JpaPagingItemReader<OrderCancelRow> orderReader() throws Exception {
+        String jplQuery = "select o from OrderCancelRow o where o.processed = FALSE";
         JpaPagingItemReader<OrderCancelRow> reader = new JpaPagingItemReader<>();
         reader.setEntityManagerFactory(entityManagerFactory);
         reader.setQueryString(jplQuery);
-        reader.setParameterValues(singletonMap("status_params", List.of(COMPLETE, CANCELLED)));
-
+        reader.setPageSize(100);
+        reader.afterPropertiesSet();
         return reader;
     }
 
     @Bean
-    public OrderProcessor orderProcessor() {
-        return new OrderProcessor();
+    public Step02CancelOrder orderProcessor() {
+        return new Step02CancelOrder();
     }
 
     @Bean

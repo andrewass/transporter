@@ -9,17 +9,20 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "ORDER_CANCEL_ROW")
+@Table(name = "T_ORDER_CANCEL_ROW")
 class OrderCancelRow {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @OneToOne
-    @MapsId
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ORDER_ID")
     private Order order;
 
-    @Column(name = "NOTIFY_USER")
     private Boolean notifyUser;
+
+    private Boolean notifyDriver;
+
+    private Boolean processed = false;
 }

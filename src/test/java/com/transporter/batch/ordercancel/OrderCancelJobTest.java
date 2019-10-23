@@ -14,10 +14,11 @@ import org.springframework.test.context.jdbc.SqlGroup;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
+
 @SqlGroup({
         @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:clearTables.sql")
 })
+@SpringBootTest
 class OrderCancelJobTest {
 
     @Autowired
@@ -31,12 +32,11 @@ class OrderCancelJobTest {
 
     @Test
     void testJob() throws Exception {
-        ordersBuilder.insertUsers();
+        ordersBuilder.createOrders();
         JobLauncherTestUtils jobLauncherTestUtils = new JobLauncherTestUtils();
         jobLauncherTestUtils.setJobLauncher(jobLauncher);
         jobLauncherTestUtils.setJob(job);
         JobExecution jobExecution = jobLauncherTestUtils.launchJob();
         assertEquals(BatchStatus.COMPLETED, jobExecution.getStatus());
     }
-
 }

@@ -31,8 +31,8 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    private LocalDateTime tripTime;
+    private LocalDateTime tripDate;
 
-    private LocalDate orderDate;
+    private LocalDateTime orderDate;
 
 }

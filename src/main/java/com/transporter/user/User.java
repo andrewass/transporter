@@ -15,7 +15,11 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    private Long id;
+
+    private String username;
+
+    private Boolean notifyUser = true;
 
     @OneToMany(mappedBy = "user")
     private List<Order> orderList;
