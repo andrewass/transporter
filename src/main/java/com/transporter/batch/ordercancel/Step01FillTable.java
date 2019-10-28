@@ -1,18 +1,16 @@
 package com.transporter.batch.ordercancel;
 
-import com.transporter.order.Order;
-import com.transporter.order.OrderRepository;
-import com.transporter.order.OrderStatus;
+import com.transporter.entities.order.Order;
+import com.transporter.entities.order.OrderRepository;
+import com.transporter.entities.order.OrderStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j

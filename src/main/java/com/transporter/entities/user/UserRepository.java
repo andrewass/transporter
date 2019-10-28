@@ -1,4 +1,4 @@
-package com.transporter.user;
+package com.transporter.entities.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

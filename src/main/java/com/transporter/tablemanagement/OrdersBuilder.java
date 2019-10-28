@@ -1,12 +1,12 @@
 package com.transporter.tablemanagement;
 
-import com.transporter.driver.Driver;
-import com.transporter.driver.DriverRepository;
-import com.transporter.order.Order;
-import com.transporter.order.OrderRepository;
-import com.transporter.order.OrderStatus;
-import com.transporter.user.User;
-import com.transporter.user.UserRepository;
+import com.transporter.entities.driver.Driver;
+import com.transporter.entities.driver.DriverRepository;
+import com.transporter.entities.order.Order;
+import com.transporter.entities.order.OrderRepository;
+import com.transporter.entities.order.OrderStatus;
+import com.transporter.entities.user.User;
+import com.transporter.entities.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

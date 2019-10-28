@@ -1,4 +1,4 @@
-package com.transporter.order;
+package com.transporter.entities.order;
 
 public enum OrderStatus {
     /*

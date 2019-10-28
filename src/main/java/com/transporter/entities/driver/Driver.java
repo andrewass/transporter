@@ -1,6 +1,7 @@
-package com.transporter.driver;
+package com.transporter.entities.driver;
 
-import com.transporter.order.Order;
+import com.transporter.entities.order.Order;
+import com.transporter.entities.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,5 +25,8 @@ public class Driver {
     @OneToMany(mappedBy = "driver")
     private List<Order> orderList;
 
+    @OneToOne
+    @JoinColumn(name = "USER_ID")
+    User user;
 
 }

@@ -1,27 +1,22 @@
 package com.transporter.batch.ordercancel;
 
-import com.transporter.driver.Driver;
-import com.transporter.order.Order;
-import com.transporter.order.OrderRepository;
-import com.transporter.order.OrderStatus;
-import com.transporter.tablemanagement.OrdersBuilder;
-import com.transporter.user.User;
+import com.transporter.entities.driver.Driver;
+import com.transporter.entities.order.Order;
+import com.transporter.entities.order.OrderRepository;
+import com.transporter.entities.order.OrderStatus;
+import com.transporter.entities.user.User;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.repeat.RepeatStatus;
-import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import static com.transporter.order.OrderStatus.*;
-import static java.util.Collections.*;
+import static com.transporter.entities.order.OrderStatus.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;

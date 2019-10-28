@@ -1,6 +1,6 @@
 package com.transporter.batch.ordercancel;
 
-import com.transporter.order.OrderRepository;
+import com.transporter.entities.order.OrderRepository;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;

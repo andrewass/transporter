@@ -1,8 +1,6 @@
-package com.transporter.trip;
+package com.transporter.entities.trip;
 
-import com.transporter.driver.Driver;
-import com.transporter.order.Order;
-import com.transporter.user.User;
+import com.transporter.entities.order.Order;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;

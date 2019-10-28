@@ -1,4 +1,4 @@
-package com.transporter.driver;
+package com.transporter.entities.driver;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

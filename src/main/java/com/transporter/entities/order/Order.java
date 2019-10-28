@@ -1,12 +1,11 @@
-package com.transporter.order;
+package com.transporter.entities.order;
 
-import com.transporter.driver.Driver;
-import com.transporter.user.User;
+import com.transporter.entities.driver.Driver;
+import com.transporter.entities.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 

@@ -1,7 +1,7 @@
-package com.transporter.review;
+package com.transporter.entities.review;
 
-import com.transporter.driver.Driver;
-import com.transporter.user.User;
+import com.transporter.entities.driver.Driver;
+import com.transporter.entities.user.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;

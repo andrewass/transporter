@@ -1,6 +1,6 @@
-package com.transporter.user;
+package com.transporter.entities.user;
 
-import com.transporter.order.Order;
+import com.transporter.entities.order.Order;
 import lombok.Getter;
 import lombok.Setter;
 

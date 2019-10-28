@@ -1,6 +1,6 @@
 package com.transporter.batch.ordercancel;
 
-import com.transporter.order.OrderRepository;
+import com.transporter.entities.order.OrderRepository;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
