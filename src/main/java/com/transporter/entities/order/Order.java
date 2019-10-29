@@ -4,6 +4,8 @@ import com.transporter.entities.driver.Driver;
 import com.transporter.entities.user.User;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,7 +18,7 @@ import java.time.LocalDateTime;
 public class Order {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,6 +34,9 @@ public class Order {
 
     private LocalDateTime tripDate;
 
-    private LocalDateTime orderDate;
+    @CreationTimestamp
+    private LocalDateTime dateCreated;
 
+    @UpdateTimestamp
+    private LocalDateTime dateUpdated;
 }

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "T_REVIEW")
+@Table(name = "T_DRIVER_REVIEW")
 public class DriverReview {
 
     @Id
@@ -30,7 +30,4 @@ public class DriverReview {
     @CreationTimestamp
     @Column(name = "DATE_CREATED")
     private LocalDateTime dateCreated;
-
-
-
 }
