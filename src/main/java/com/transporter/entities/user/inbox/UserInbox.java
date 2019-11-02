@@ -1,10 +1,13 @@
 package com.transporter.entities.user.inbox;
 
+import com.transporter.entities.order.Order;
+import com.transporter.entities.user.User;
 import com.transporter.entities.user.message.Message;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -17,7 +20,14 @@ public class UserInbox {
     @GeneratedValue
     private Long id;
 
-    @OneToMany(mappedBy = "userInbox")
-    private List<Message> messageList;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
+    private User user;
 
+    @OneToMany(mappedBy = "userInbox", cascade = CascadeType.PERSIST)
+    private List<Message> messageList = new ArrayList<>();
+
+    public void addMessage(Message message){
+        messageList.add(message);
+    }
 }

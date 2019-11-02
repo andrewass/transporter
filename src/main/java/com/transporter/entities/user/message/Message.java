@@ -28,4 +28,11 @@ public class Message {
     @OneToOne
     @JoinColumn(name = "SENDER_ID")
     private User sender;
+
+    public Message() {
+    }
+
+    public Message(String message) {
+        this.message = message;
+    }
 }

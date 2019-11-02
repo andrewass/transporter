@@ -1,18 +1,22 @@
 #################### Entities #######################
 create table t_user
 (
-    id         bigint(20) not null auto_increment,
-    username   varchar(50),
-    first_name varchar(50),
+    id          bigint(20) not null auto_increment,
+    username    varchar(50),
+    first_name  varchar(50),
+    notify_user boolean,
     primary key (id)
 );
 
 create table t_driver
 (
-    id           bigint(20) not null auto_increment,
-    date_created datetime,
-    date_updated datetime,
-    primary key (id)
+    id            bigint(20) not null auto_increment,
+    date_created  datetime,
+    date_updated  datetime,
+    notify_driver boolean,
+    user_id       bigint(20),
+    primary key (id),
+    foreign key (user_id) references t_user (id)
 );
 
 create table t_order
@@ -51,18 +55,44 @@ create table t_trip
     trip_time    datetime,
     date_created datetime,
     date_updated datetime,
-    primary key (id)
+    order_id     bigint(20),
+    primary key (id),
+    foreign key (customer_id) references t_user (id),
+    foreign key (order_id) references t_order (id)
 );
+
+create table t_user_inbox
+(
+    id      bigint(20) not null auto_increment,
+    user_id bigint(20),
+    primary key (id),
+    foreign key (user_id) references t_user (id)
+);
+
+create table t_message
+(
+    id            bigint(20) not null auto_increment,
+    user_inbox_id bigint(20),
+    message       varchar(500),
+    isRead        boolean,
+    sender_id     bigint(20),
+    primary key (id),
+    foreign key (user_inbox_id) references t_user_inbox (id),
+    foreign key (sender_id) references t_user (id)
+);
+
 
 ######### Batch Tables ############
 
 create table t_order_cancel_row
 (
-    id            bigint(20) not null auto_increment,
-    order_id      bigint(20),
-    notify_user   bool,
-    notify_driver bool,
-    processed     bool,
+    id              bigint(20) not null auto_increment,
+    order_id        bigint(20),
+    notify_user     boolean,
+    notify_driver   boolean,
+    user_notified   boolean,
+    driver_notified boolean,
+    processed       boolean,
     primary key (id),
     foreign key (order_id) references t_order (id)
 );

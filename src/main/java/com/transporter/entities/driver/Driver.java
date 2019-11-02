@@ -18,8 +18,6 @@ public class Driver {
     @GeneratedValue
     private Long id;
 
-    private String username;
-
     private Boolean notifyDriver = true;
 
     @OneToMany(mappedBy = "driver")

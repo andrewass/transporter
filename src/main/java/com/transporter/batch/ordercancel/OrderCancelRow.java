@@ -20,9 +20,17 @@ class OrderCancelRow {
     @JoinColumn(name = "ORDER_ID")
     private Order order;
 
-    private Boolean notifyUser;
+    @Column(name = "NOTIFY_USER")
+    private Boolean notifyUser = false;
 
-    private Boolean notifyDriver;
+    @Column(name = "USER_NOTIFIED")
+    private Boolean userNotified = false;
+
+    @Column(name = "NOTIFY_DRIVER")
+    private Boolean notifyDriver = false;
+
+    @Column(name = "DRIVER_NOTIFIED")
+    private Boolean driverNotified = false;
 
     private Boolean processed = false;
 }

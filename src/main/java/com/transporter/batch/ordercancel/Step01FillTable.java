@@ -47,6 +47,6 @@ public class Step01FillTable implements Tasklet {
 
     private List<Order> findOrdersToCancel() {
         List<OrderStatus> excludedOrders = List.of(OrderStatus.COMPLETE, OrderStatus.CANCELLED, OrderStatus.TRIP_ACTIVATED);
-        return orderRepository.findOrdersToCancel(excludedOrders, LocalDateTime.now());
+        return orderRepository.findOrdersToCancel(excludedOrders, LocalDateTime.now().minusDays(1));
     }
 }

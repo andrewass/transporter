@@ -1,6 +1,7 @@
 package com.transporter.entities.user;
 
 import com.transporter.entities.order.Order;
+import com.transporter.entities.user.inbox.UserInbox;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,6 +20,7 @@ public class User {
 
     private String username;
 
+    @Column(name = "NOTIFY_USER")
     private Boolean notifyUser = true;
 
     @OneToMany(mappedBy = "user")
