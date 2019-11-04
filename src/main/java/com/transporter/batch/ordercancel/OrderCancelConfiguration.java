@@ -62,7 +62,7 @@ public class OrderCancelConfiguration {
     @Bean
     public Step step3() {
         return stepBuilderFactory.get("delete-history")
-                .tasklet(new Step03DeleteHistory())
+                .tasklet(new Step03DeleteHistory(orderCancelRowRepository))
                 .build();
     }
 

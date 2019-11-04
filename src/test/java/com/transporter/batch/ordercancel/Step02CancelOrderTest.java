@@ -30,8 +30,6 @@ class Step02CancelOrderTest {
 
     private Order order;
 
-
-
     @BeforeEach
     void init(){
         when(userInboxRepository.findByUserId(1L)).thenReturn(new UserInbox());

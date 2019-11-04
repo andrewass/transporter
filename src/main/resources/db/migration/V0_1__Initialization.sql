@@ -74,7 +74,7 @@ create table t_message
     id            bigint(20) not null auto_increment,
     user_inbox_id bigint(20),
     message       varchar(500),
-    isRead        boolean,
+    is_read       boolean,
     sender_id     bigint(20),
     primary key (id),
     foreign key (user_inbox_id) references t_user_inbox (id),
@@ -93,6 +93,8 @@ create table t_order_cancel_row
     user_notified   boolean,
     driver_notified boolean,
     processed       boolean,
+    date_created  datetime,
+    date_updated  datetime,
     primary key (id),
     foreign key (order_id) references t_order (id)
 );

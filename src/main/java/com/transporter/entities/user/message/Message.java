@@ -23,6 +23,7 @@ public class Message {
 
     private String message;
 
+    @Column(name = "IS_READ")
     private boolean isRead;
 
     @OneToOne

@@ -1,5 +1,6 @@
 package com.transporter.batch.ordercancel;
 
+import com.transporter.entities.user.inbox.UserInbox;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.Job;
@@ -12,6 +13,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @SqlGroup({

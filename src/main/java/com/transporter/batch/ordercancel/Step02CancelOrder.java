@@ -44,6 +44,7 @@ public class Step02CancelOrder implements ItemProcessor<OrderCancelRow, OrderCan
     private void sendMessage(Long userId, Message message){
         UserInbox userInbox = userInboxRepository.findByUserId(userId);
         userInbox.addMessage(message);
+        message.setUserInbox(userInbox);
         userInboxRepository.save(userInbox);
     }
 }

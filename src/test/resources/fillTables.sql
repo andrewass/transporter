@@ -10,6 +10,17 @@ values (2, 'user_2', 1);
 insert into t_user(id, username, notify_user)
 values (3, 'user_3', 1);
 
+
+-- User Inbox inserts
+insert into t_user_inbox(id, user_id)
+values (1, 1);
+
+insert into t_user_inbox(id, user_id)
+values (2, 2);
+
+insert into t_user_inbox(id, user_id)
+values (3, 3);
+
 -- Driver inserts
 
 insert into t_driver(id, notify_driver, user_id)

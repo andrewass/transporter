@@ -24,7 +24,7 @@ public class UserInbox {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    @OneToMany(mappedBy = "userInbox", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "userInbox", cascade = CascadeType.ALL)
     private List<Message> messageList = new ArrayList<>();
 
     public void addMessage(Message message){
