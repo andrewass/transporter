@@ -3,8 +3,7 @@ create table t_user
 (
     id          bigint(20) not null auto_increment,
     username    varchar(50),
-    password varchar(100),
-    email varchar(70),
+    first_name  varchar(50),
     notify_user boolean,
     primary key (id)
 );
