@@ -3,6 +3,8 @@ create table t_user
 (
     id          bigint(20) not null auto_increment,
     username    varchar(50),
+    email       varchar(50),
+    password    varchar(50),
     first_name  varchar(50),
     notify_user boolean,
     primary key (id)
@@ -93,8 +95,8 @@ create table t_order_cancel_row
     user_notified   boolean,
     driver_notified boolean,
     processed       boolean,
-    date_created  datetime,
-    date_updated  datetime,
+    date_created    datetime,
+    date_updated    datetime,
     primary key (id),
     foreign key (order_id) references t_order (id)
 );
