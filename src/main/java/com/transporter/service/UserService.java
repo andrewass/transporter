@@ -1,17 +1,17 @@
 package com.transporter.service;
 
 import com.transporter.controller.requests.SignUpRequest;
-import com.transporter.controller.requests.SingInRequest;
+import com.transporter.controller.requests.SignInRequest;
 import com.transporter.controller.responses.SignInResponse;
 import com.transporter.entities.user.User;
 import com.transporter.exceptions.IncorrectPasswordException;
+import com.transporter.exceptions.UsernameNotAvailableException;
 import com.transporter.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.FileNotFoundException;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +31,10 @@ public class UserService {
         return userRepository.findUserByUsername(username) == null;
     }
 
-    public User createUser(SignUpRequest request) {
+    public User createUser(SignUpRequest request) throws UsernameNotAvailableException {
+        if(usernameIsAlreadyInUse(request.getUsername())){
+            throw new UsernameNotAvailableException("Username "+request.getUsername()+" not available");
+        }
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -39,11 +42,16 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public SignInResponse signInUser(SingInRequest request) throws IncorrectPasswordException {
+
+    public SignInResponse signInUser(SignInRequest request) throws IncorrectPasswordException {
         User user = findUser(request.getUsername());
         authenticateUser(request.getPassword(), user);
         String token = generateUserToken();
         return new SignInResponse("ff");
+    }
+
+    private boolean usernameIsAlreadyInUse(String username) {
+        return userRepository.findUserByUsername(username) != null;
     }
 
     private String generateUserToken() {
