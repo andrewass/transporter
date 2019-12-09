@@ -4,7 +4,7 @@ create table t_user
     id          bigint(20) not null auto_increment,
     username    varchar(50),
     email       varchar(50),
-    password    varchar(50),
+    password    varchar(200),
     first_name  varchar(50),
     notify_user boolean,
     primary key (id)

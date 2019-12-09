@@ -7,21 +7,17 @@ import com.transporter.controller.requests.SignInRequest;
 import com.transporter.controller.requests.SignUpRequest;
 import com.transporter.controller.responses.SignInResponse;
 import com.transporter.entities.user.User;
+import com.transporter.exceptions.IncorrectPasswordException;
 import com.transporter.exceptions.UsernameNotAvailableException;
-import com.transporter.service.UserService;
+import com.transporter.service.DefaultAuthService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -37,7 +33,7 @@ class AuthenticationControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private UserService userService;
+    private DefaultAuthService userService;
 
     @Test
     void shouldReturnStatusOkWhenUsernameIsAvailableForSignUp() throws Exception {
@@ -73,6 +69,16 @@ class AuthenticationControllerTest {
     }
 
     @Test
+    void shouldReturnStatus401WhenIncorrectPassword() throws Exception {
+        when(userService.signInUser(any(SignInRequest.class))).thenThrow(IncorrectPasswordException.class);
+
+        mockMvc.perform(post("/sign-in")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(createSignInRequest()))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     void shouldReturnStatusOkWhenSigningIn() throws Exception {
         when(userService.signInUser(any(SignInRequest.class))).thenReturn(new SignInResponse("testtoken"));
 
@@ -80,6 +86,16 @@ class AuthenticationControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(createSignInRequest()))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldReturnStatus401WhenUsernameNotFound() throws Exception {
+        when(userService.signInUser(any(SignInRequest.class))).thenThrow(UsernameNotFoundException.class);
+
+        mockMvc.perform(post("/sign-in")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(createSignInRequest()))
+                .andExpect(status().isUnauthorized());
     }
 
     private String createSignInRequest() throws JsonProcessingException {
@@ -96,6 +112,4 @@ class AuthenticationControllerTest {
         SignUpRequest request = new SignUpRequest("testuser", "p@sswOrd", "test@mail.com");
         return objectMapper.writeValueAsString(request);
     }
-
-
 }

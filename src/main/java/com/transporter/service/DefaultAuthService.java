@@ -1,10 +1,12 @@
 package com.transporter.service;
 
+import com.transporter.controller.requests.SignOutRequest;
 import com.transporter.controller.requests.SignUpRequest;
 import com.transporter.controller.requests.SignInRequest;
 import com.transporter.controller.responses.SignInResponse;
 import com.transporter.entities.user.User;
 import com.transporter.exceptions.IncorrectPasswordException;
+import com.transporter.exceptions.InvalidTokenException;
 import com.transporter.exceptions.UsernameNotAvailableException;
 import com.transporter.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,23 +19,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class UserService {
+public class DefaultAuthService implements AuthService {
 
-    @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private Map<String, User> tokenMap = new HashMap<>();
+    @Autowired
+    DefaultAuthService(UserRepository userRepository, PasswordEncoder passwordEncoder){
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    private Map<String, User> userTokenMap = new HashMap<>();
 
     public boolean usernameIsAvailable(String username) {
         return userRepository.findUserByUsername(username) == null;
     }
 
+    @Override
     public User createUser(SignUpRequest request) throws UsernameNotAvailableException {
-        if(usernameIsAlreadyInUse(request.getUsername())){
-            throw new UsernameNotAvailableException("Username "+request.getUsername()+" not available");
+        if (usernameIsAlreadyInUse(request.getUsername())) {
+            throw new UsernameNotAvailableException("Username " + request.getUsername() + " not available");
         }
         User user = new User();
         user.setUsername(request.getUsername());
@@ -42,12 +49,27 @@ public class UserService {
         return userRepository.save(user);
     }
 
-
+    @Override
     public SignInResponse signInUser(SignInRequest request) throws IncorrectPasswordException {
         User user = findUser(request.getUsername());
         authenticateUser(request.getPassword(), user);
         String token = generateUserToken();
         return new SignInResponse("ff");
+    }
+
+    @Override
+    public void signOutUser(SignOutRequest request) throws InvalidTokenException {
+        getUserFromToken(request.getToken());
+        userTokenMap.remove(request.getToken());
+    }
+
+    @Override
+    public User getUserFromToken(String token) throws InvalidTokenException {
+        User signedInUser = userTokenMap.get(token);
+        if (signedInUser == null) {
+            throw new InvalidTokenException("Invalid token : " + token);
+        }
+        return signedInUser;
     }
 
     private boolean usernameIsAlreadyInUse(String username) {
@@ -68,7 +90,7 @@ public class UserService {
     }
 
     private void authenticateUser(String submittedPassword, User user) throws IncorrectPasswordException {
-        if (!submittedPassword.equals(user.getPassword())) {
+        if (!passwordEncoder.matches(submittedPassword, user.getPassword())) {
             throw new IncorrectPasswordException("Incorrect password");
         }
     }

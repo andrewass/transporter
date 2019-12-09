@@ -1,4 +1,4 @@
-package com.transporter.batch;
+package com.transporter.controller;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.launch.JobLauncher;
@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/order-cancel")
 public class BatchController {
 
-    @GetMapping
+    @GetMapping("/order-cancel")
     public void initBatchJob(){
 
     }
